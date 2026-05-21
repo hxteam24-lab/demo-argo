@@ -24,5 +24,6 @@ persistence:
 
 ingress:
   enabled: true
+  host: ha.local
 
 env: []
