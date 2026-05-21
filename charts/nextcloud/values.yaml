@@ -35,3 +35,9 @@ env:
         key: password
   - name: SQLITE_DATABASE
     value: nextcloud
+  - name: NEXTCLOUD_TRUSTED_DOMAINS
+    value: "10.241.40.167 localhost"
+  - name: OVERWRITEWEBROOT
+    value: "/cloud"
+  - name: OVERWRITEPROTOCOL
+    value: "http"
