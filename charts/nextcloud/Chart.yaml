@@ -1,0 +1,5 @@
+apiVersion: v2
+name: nextcloud
+description: Nextcloud - Self-hosted productivity platform
+version: 1.0.0
+appVersion: "30.0.0"

@@ -1,0 +1,26 @@
+# Override values for AdGuard Home
+# Change these to customize your deployment
+
+replicaCount: 1
+
+image:
+  repository: adguard/adguardhome
+  tag: v0.107.52
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  httpPort: 3000
+  dnsPort: 53
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+persistence:
+  enabled: true
+  size: 1Gi

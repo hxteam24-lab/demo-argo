@@ -1,0 +1,36 @@
+# Override values for Nextcloud
+# Change these to customize your deployment
+
+replicaCount: 1
+
+image:
+  repository: nextcloud
+  tag: "30.0.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+env:
+  - name: NEXTCLOUD_ADMIN_USER
+    value: admin
+  - name: NEXTCLOUD_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: nextcloud-admin
+        key: password
+  - name: SQLITE_DATABASE
+    value: nextcloud

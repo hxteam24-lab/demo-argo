@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homeassistant
+  namespace: argocd
+  annotations:
+    # Image Updater: auto-detect new tags for home-assistant
+    argocd-image-updater.argoproj.io/image-list: ha=ghcr.io/home-assistant/home-assistant
+    argocd-image-updater.argoproj.io/ha.update-strategy: latest
+    argocd-image-updater.argoproj.io/ha.helm.image-name: image.repository
+    argocd-image-updater.argoproj.io/ha.helm.image-tag: image.tag
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-credentials: secret:argocd/git-creds
+spec:
+  project: default
+  source:
+    # Internal GitLab CE in the cluster (gitlab namespace)
+    repoURL: http://gitlab.gitlab.svc.cluster.local/root/demo-gitops.git
+    targetRevision: main
+    path: charts/homeassistant
+    helm:
+      valueFiles:
+        - ../../values/homeassistant-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: homeassistant
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

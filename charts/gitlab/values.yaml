@@ -1,0 +1,42 @@
+replicaCount: 1
+
+image:
+  repository: gitlab/gitlab-ce
+  tag: "17.0.0-ce.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  httpPort: 80
+  httpsPort: 443
+  sshPort: 22
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 2Gi
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+
+persistence:
+  enabled: true
+  configSize: 1Gi
+  logsSize: 2Gi
+  dataSize: 10Gi
+  storageClass: ""
+
+# GitLab configuration
+# EXTERNAL_URL should match how Argo CD will reach GitLab inside the cluster
+externalUrl: "http://gitlab.gitlab.svc.cluster.local"
+
+env:
+  GITLAB_OMNIBUS_CONFIG: |
+    external_url 'http://gitlab.gitlab.svc.cluster.local'
+    gitlab_rails['initial_root_password'] = 'Demo1234!'
+    gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16']
+    # Reduce memory usage for demo
+    puma['worker_processes'] = 2
+    sidekiq['concurrency'] = 5
+    prometheus_monitoring['enable'] = false
+    grafana['enable'] = false
