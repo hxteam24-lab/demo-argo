@@ -23,6 +23,15 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    until [ -f /var/www/html/config/config.php ]; do sleep 2; done
+                    su -s /bin/sh www-data -c "php /var/www/html/occ config:system:set trusted_domains 1 --value='{{ .Values.ingress.trustedDomain }}'" || true
           volumeMounts:
             - name: data
               mountPath: /var/www/html

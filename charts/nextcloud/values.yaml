@@ -24,6 +24,7 @@ persistence:
 
 ingress:
   enabled: true
+  trustedDomain: "10.241.40.167"
 
 env:
   - name: NEXTCLOUD_ADMIN_USER
