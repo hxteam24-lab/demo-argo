@@ -15,6 +15,15 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
+      initContainers:
+        - name: init-config
+          image: busybox:1.36
+          command: ['sh', '-c', 'if [ ! -f /config/configuration.yaml ]; then cp /ha-config/configuration.yaml /config/configuration.yaml; fi']
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: ha-config
+              mountPath: /ha-config
       containers:
         - name: homeassistant
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -40,3 +49,6 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        - name: ha-config
+          configMap:
+            name: {{ .Release.Name }}-ha-config
