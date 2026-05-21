@@ -3,19 +3,10 @@ kind: Application
 metadata:
   name: nextcloud
   namespace: argocd
-  annotations:
-    # Image Updater: auto-detect new tags for nextcloud
-    argocd-image-updater.argoproj.io/image-list: nc=nextcloud
-    argocd-image-updater.argoproj.io/nc.update-strategy: semver
-    argocd-image-updater.argoproj.io/nc.helm.image-name: image.repository
-    argocd-image-updater.argoproj.io/nc.helm.image-tag: image.tag
-    argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/git-credentials: secret:argocd/git-creds
 spec:
   project: default
   source:
-    # Internal GitLab CE in the cluster (gitlab namespace)
-    repoURL: http://gitlab.gitlab.svc.cluster.local/root/demo-gitops.git
+    repoURL: https://github.com/hxteam24-lab/demo-argo.git
     targetRevision: main
     path: charts/nextcloud
     helm:

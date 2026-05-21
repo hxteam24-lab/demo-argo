@@ -22,6 +22,9 @@ persistence:
   size: 5Gi
   storageClass: ""
 
+ingress:
+  enabled: true
+
 env:
   - name: NEXTCLOUD_ADMIN_USER
     value: admin

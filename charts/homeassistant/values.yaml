@@ -22,4 +22,7 @@ persistence:
   size: 2Gi
   storageClass: ""
 
+ingress:
+  enabled: true
+
 env: []
