@@ -29,12 +29,6 @@ echo "Patching ingress controller to use NodePort 30080..."
 kubectl patch svc ingress-nginx-controller -n ingress-nginx \
   --type='json' -p='[{"op":"replace","path":"/spec/ports/0/nodePort","value":30080}]'
 
-echo "Enabling configuration-snippet in ingress controller..."
-kubectl set env deployment/ingress-nginx-controller -n ingress-nginx \
-  NGINX_INGRESS_CONTROLLER_ARGS="--enable-annotation-validation=false" || true
-kubectl patch configmap ingress-nginx-controller -n ingress-nginx \
-  --type merge -p '{"data":{"allow-snippet-annotations":"true"}}'
-
 # -----------------------------------------------
 # Step 2: Install Argo CD
 # -----------------------------------------------
