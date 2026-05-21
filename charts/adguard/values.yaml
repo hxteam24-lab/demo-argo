@@ -25,3 +25,4 @@ persistence:
 
 ingress:
   enabled: true
+  host: ad.local
